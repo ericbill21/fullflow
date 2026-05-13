@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="FullFlow: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation">
+  <meta property="og:title" content="FullFlow: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation"/>
+  <meta property="og:description" content="N\A"/>
+  <meta property="og:url" content="https://ericbill21.github.io/FullFlow/"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/teaser.jpg" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="Image Generation, Diffusion Models, Test-Time Adaptation, Subject Disentanglement">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://www.w3counter.com/tracker.js?id=156396"></script>
+
+  <title>Optimal Control Meets Flow Matching: A Principled Route to Multi-Subject Fidelity</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <!-- <h3 class="title is-4">CVPR 2026 CVEU</h3> -->
+            <h3 class="title is-4"></h3>
+            <h1 class="title is-1 publication-title">FullFlow:<br>
+              Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://ericbill.me/" target="_blank">Eric Tillmann Bill</a>,</span>
+                <a href="https://enis.dev/" target="_blank">Enis Simsar</a>,</span>
+                <a href="https://alessiotonioni.github.io/" target="_blank">Alessio Tonioni</a>,</span>
+                <span class="author-block">
+                  <a href="https://da.inf.ethz.ch/" target="_blank">Thomas Hofmann</a></span>
+                </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">ETH Zürich</span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <!-- ArXiv abstract Link
+                      <span class="link-block">
+                        <a href="https://arxiv.org/abs/2510.02315" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="ai ai-arxiv"></i>
+                        </span>
+                        <span>arXiv</span>
+                      </a>
+                    </span> -->
+
+                  <!-- Github link -->
+                  <!-- <span class="link-block">
+                    <a href="https://github.com/ericbill21/FOCUS" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span> -->
+                  <!-- HF SD3 -->
+                  <!-- <span class="link-block">
+                    <a href="https://huggingface.co/ericbill21/focus_sd35" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                          &#129303;
+                      </span>
+                    <span>SD3.5 Medium</span>
+                  </a>
+                </span> -->
+                <!-- HF FLUX -->
+                <!-- <span class="link-block">
+                    <a href="https://huggingface.co/ericbill21/focus_flux" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                          &#129303;
+                      </span>
+                    <span>FLUX.1 [DEV]</span>
+                  </a>
+                </span> -->
+                <!-- COLAB -->
+                <!-- <span class="link-block">
+                    <a href="https://colab.research.google.com/github/ericbill21/FOCUS/blob/main/demo_finetuning.ipynb" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <img
+                        src="static/images/colab.svg"
+                        alt="Google Colab"
+                        style="height: 1em; width: 1em; vertical-align: middle;"
+                      >
+                    </span>
+                    <span>Colab</span>
+                  </a>
+                </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Qualitative Results -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column has-text-centered">
+        <h2 class="title">WORK IN PROGRESS🚧</h2>
+        <!-- <figure class="image">
+          <img src="static/images/missing" alt="WIP">
+        </figure> -->
+        <p>Rest of the website will be live soon....!</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Qualitative Results -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Modern text-to-image diffusion models encode rich visual priors, but expose them only through one-way text-conditioned generation. Existing unified vision--language models derived from them recover bidirectional capability through large-scale joint pretraining or substantial retraining of the text pathway, discarding the strong image prior the text-to-image backbone already encodes. We introduce FullFlow, a parameter-efficient recipe that upgrades a pretrained rectified-flow text-to-image model into a bidirectional vision--language generator by training only LoRA adapters and lightweight text heads. FullFlow keeps images in their native continuous flow and adds a discrete insertion process for text. Separate image and text timesteps turn inference into trajectory selection in a two-dimensional generative space, enabling text->image, image->text, joint sampling, and partial-text prediction with a single backbone. On Stable Diffusion 3~(SD3) under an identical trainable-parameter count and matched LoRA rank, FullFlow improves text->image FID from 62.7 to 31.6 and image->text CIDEr from 2.0 to 99.4 over a LoRA equivalent following the previous SOTA formulation (Dual~Diffusion) at matched wall-clock training time, while reducing peak VRAM from ~84GB to ~38GB and raising throughput by ~8x on two RTX~A5000 GPUs in under 24 hours, training only ~5% of the backbone parameters. The same recipe transfers to FLUX.1-dev and supports downstream VQA through partial-text generation. These results show that strong bidirectional vision--language capability can be unlocked from pretrained text-to-image flow models without full multimodal pretraining.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@misc{bill2026fullflow,
+      title={{FullFlow}: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation},
+      author = {Bill, Eric Tillmann and Simsar, Enis and Tonioni, Alessio and Hofmann, Thomas},
+      year={2026},
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
