@@ -224,6 +224,19 @@
         A single shared backbone consumes both together — making the two modalities mutually informative at every forward pass.
       </p>
 
+      <div class="headline-fig">
+        <img src="static/images/overview.jpg" alt="Dual-timestep generative space">
+        <div class="caption">
+          <b>Inference = trajectory selection in <em>(t, τ)</em>.</b>
+          Image time <em>t</em> runs along the x-axis, text time <em>τ</em> along the y-axis. All arrows are valid trajectories in the joint generative space.
+          Colored paths highlight the canonical modes:
+          <span style="color:var(--ff-red);font-weight:600;">text→image</span> (right edge, clean text fixed),
+          <span style="color:var(--ff-blue);font-weight:600;">image→text</span> (top edge, clean image fixed), and
+          <span style="color:var(--ff-green);font-weight:600;">joint</span> (any diagonal from the noise corner).
+          A single backbone handles all of them.
+        </div>
+      </div>
+
       <div class="columns is-vcentered">
         <div class="column is-half">
           <div class="headline-fig">
@@ -236,6 +249,18 @@
             <img src="static/images/concept/concept_discrete.png" alt="discrete text edit flow">
             <div class="caption"><b>Text &mdash; discrete insertion (Edit Flow).</b> Tokens are <em>deleted</em> along <em>τ</em> and re-inserted by lightweight count + identity heads. Every intermediate state is a valid token subsequence — decodable for SD3 / FLUX's frozen CLIP encoders.</div>
           </div>
+        </div>
+      </div>
+
+      <div class="headline-fig">
+        <img src="static/images/architecture.png" alt="SD3 architectural modifications" style="background:white;padding:1rem;">
+        <div class="caption">
+          <b>Architectural changes to the SD3 MMDiT backbone.</b>
+          <span style="background:#CADAFB;padding:1px 6px;border-radius:3px;">Blue</span> blocks are frozen pretrained components;
+          <span style="background:#F2CE94;padding:1px 6px;border-radius:3px;">yellow</span> blocks carry LoRA adapters;
+          <span style="background:#E8827B;padding:1px 6px;border-radius:3px;color:#fff;">red</span> blocks are newly added trainable modules (text heads + <em>τ</em>-conditioning);
+          <span style="background:#C9E2C0;padding:1px 6px;border-radius:3px;">green</span> blocks are auxiliary operations.
+          The model jointly processes noisy text tokens and image patches with modality-specific timesteps <em>(τ, t)</em> to predict cross-modal flows.
         </div>
       </div>
 
