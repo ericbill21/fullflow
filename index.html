@@ -2,38 +2,29 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
-  <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="FullFlow: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation">
-  <meta property="og:title" content="FullFlow: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation"/>
-  <meta property="og:description" content="N\A"/>
-  <meta property="og:url" content="https://ericbill21.github.io/FullFlow/"/>
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="static/images/teaser.jpg" />
+  <meta name="description" content="FullFlow: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation. A parameter-efficient recipe that converts SD3 / FLUX into a bidirectional vision-language model by training only LoRA + lightweight text heads.">
+  <meta property="og:title" content="FullFlow — Bidirectional Vision-Language Generation from Pretrained Flow Models"/>
+  <meta property="og:description" content="Turn SD3 / FLUX into a bidirectional vision-language model — text→image, image→text, joint, and VQA — by training only ~5% of the backbone. NeurIPS 2026 submission."/>
+  <meta property="og:url" content="https://ericbill21.github.io/fullflow/"/>
+  <meta property="og:image" content="static/images/example/joint.jpg" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
-  <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="Image Generation, Diffusion Models, Test-Time Adaptation, Subject Disentanglement">
+  <meta name="keywords" content="FullFlow, Bidirectional Vision-Language, Flow Matching, Rectified Flow, Stable Diffusion 3, FLUX, LoRA, Edit Flows, Multimodal Diffusion, NeurIPS 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script src="https://www.w3counter.com/tracker.js?id=156396"></script>
-
-  <title>Optimal Control Meets Flow Matching: A Principled Route to Multi-Subject Fidelity</title>
+  <title>FullFlow — Bidirectional Vision-Language Generation from Pretrained Flow Models</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-  rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="static/css/index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script src="static/js/bulma-carousel.min.js"></script>
   <script src="static/js/bulma-slider.min.js"></script>
@@ -41,162 +32,531 @@
 </head>
 <body>
 
-
+  <!-- ============================== HERO ============================== -->
   <section class="hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <!-- <h3 class="title is-4">CVPR 2026 CVEU</h3> -->
-            <h3 class="title is-4"></h3>
-            <h1 class="title is-1 publication-title">FullFlow:<br>
-              Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation</h1>
-            <div class="is-size-5 publication-authors">
-              <!-- Paper authors -->
-              <span class="author-block">
-                <a href="https://ericbill.me/" target="_blank">Eric Tillmann Bill</a>,</span>
-                <a href="https://enis.dev/" target="_blank">Enis Simsar</a>,</span>
-                <a href="https://alessiotonioni.github.io/" target="_blank">Alessio Tonioni</a>,</span>
-                <span class="author-block">
-                  <a href="https://da.inf.ethz.ch/" target="_blank">Thomas Hofmann</a></span>
-                </div>
+            <h3 class="title is-5" style="color:#888;letter-spacing:.05em;margin-bottom:.5rem;">NeurIPS 2026 Submission</h3>
+            <h1 class="title is-1 publication-title">
+              <span class="gradient-title">FullFlow</span><br>
+              <span style="font-size:1.6rem;font-weight:500;color:#222;">Upgrading Text-to-Image Flow Matching Models<br>
+              for Bidirectional Vision–Language Generation</span>
+            </h1>
 
-                  <div class="is-size-5 publication-authors">
-                    <span class="author-block">ETH Zürich</span>
-                  </div>
+            <div class="is-size-5 publication-authors" style="margin-top:1.2rem;">
+              <span class="author-block"><a href="https://ericbill.me/" target="_blank">Eric Tillmann Bill</a><sup>1</sup>,</span>
+              <span class="author-block"><a href="https://enis.dev/" target="_blank">Enis Simsar</a><sup>1</sup>,</span>
+              <span class="author-block"><a href="https://alessiotonioni.github.io/" target="_blank">Alessio Tonioni</a><sup>2</sup>,</span>
+              <span class="author-block"><a href="https://da.inf.ethz.ch/" target="_blank">Thomas Hofmann</a><sup>1</sup></span>
+            </div>
+            <div class="is-size-6 publication-authors" style="margin-top:.4rem;color:#666;">
+              <sup>1</sup>ETH Zürich &nbsp;·&nbsp; <sup>2</sup>Google
+            </div>
 
-                  <div class="column has-text-centered">
-                    <div class="publication-links">
-                      <!-- ArXiv abstract Link
-                      <span class="link-block">
-                        <a href="https://arxiv.org/abs/2510.02315" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="ai ai-arxiv"></i>
-                        </span>
-                        <span>arXiv</span>
-                      </a>
-                    </span> -->
+            <div class="column has-text-centered" style="margin-top:1.5rem;">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="static/paper.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/ericbill21/" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code (coming soon)</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#bibtex" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-quote-left"></i></span>
+                    <span>BibTeX</span>
+                  </a>
+                </span>
+              </div>
+            </div>
 
-                  <!-- Github link -->
-                  <!-- <span class="link-block">
-                    <a href="https://github.com/ericbill21/FOCUS" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span> -->
-                  <!-- HF SD3 -->
-                  <!-- <span class="link-block">
-                    <a href="https://huggingface.co/ericbill21/focus_sd35" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                          &#129303;
-                      </span>
-                    <span>SD3.5 Medium</span>
-                  </a>
-                </span> -->
-                <!-- HF FLUX -->
-                <!-- <span class="link-block">
-                    <a href="https://huggingface.co/ericbill21/focus_flux" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                          &#129303;
-                      </span>
-                    <span>FLUX.1 [DEV]</span>
-                  </a>
-                </span> -->
-                <!-- COLAB -->
-                <!-- <span class="link-block">
-                    <a href="https://colab.research.google.com/github/ericbill21/FOCUS/blob/main/demo_finetuning.ipynb" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <img
-                        src="static/images/colab.svg"
-                        alt="Google Colab"
-                        style="height: 1em; width: 1em; vertical-align: middle;"
-                      >
-                    </span>
-                    <span>Colab</span>
-                  </a>
-                </span> -->
+            <div class="tldr-banner" style="margin-top:2rem;text-align:left;">
+              <b>TL;DR &mdash;</b> We upgrade a pretrained text-to-image rectified-flow model (SD3 / FLUX) into a
+              <b>bidirectional vision–language generator</b> by training <b>only LoRA adapters + lightweight text heads</b>
+              (~5% of parameters, &lt;24h on two RTX A5000s). A single backbone handles
+              <span style="color:var(--ff-red);font-weight:600;">text→image</span>,
+              <span style="color:var(--ff-blue);font-weight:600;">image→text</span>,
+              <span style="color:var(--ff-green);font-weight:600;">joint sampling</span>, and
+              <span style="color:var(--ff-purple);font-weight:600;">VQA</span> — all by selecting a trajectory
+              in a 2D image–text time space.
+            </div>
+
+            <!-- Headline stats -->
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="num">62.7 → 31.6</div>
+                <div class="label">Text→Image FID<br>vs. matched Dual&nbsp;Diffusion baseline</div>
+              </div>
+              <div class="stat-card">
+                <div class="num">2.0 → 99.4</div>
+                <div class="label">Image→Text CIDEr<br>at matched wall-clock time</div>
+              </div>
+              <div class="stat-card">
+                <div class="num">~8×</div>
+                <div class="label">Faster throughput<br>0.25 → 1.96 steps/s</div>
+              </div>
+              <div class="stat-card">
+                <div class="num">~5%</div>
+                <div class="label">Trainable parameters<br>~136M of 2B (SD3)</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Qualitative Results -->
-<section class="section hero">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column has-text-centered">
-        <h2 class="title">WORK IN PROGRESS🚧</h2>
-        <!-- <figure class="image">
-          <img src="static/images/missing" alt="WIP">
-        </figure> -->
-        <p>Rest of the website will be live soon....!</p>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End Qualitative Results -->
+  <!-- ============================== TEASER FIGURE ============================== -->
+  <section class="section" style="padding-top:0;">
+    <div class="container is-max-desktop">
+      <h2 class="section-title has-text-centered">One backbone, <span class="accent">four generative modes</span></h2>
+      <p class="section-sub has-text-centered" style="margin-left:auto;margin-right:auto;">
+        Decoupling image time <em>t</em> and text time <em>τ</em> turns inference into trajectory selection in a 2D
+        generative space. Fixing one modality recovers the conditional task; evolving both yields joint sampling.
+      </p>
 
-<!-- Paper abstract -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Modern text-to-image diffusion models encode rich visual priors, but expose them only through one-way text-conditioned generation. Existing unified vision--language models derived from them recover bidirectional capability through large-scale joint pretraining or substantial retraining of the text pathway, discarding the strong image prior the text-to-image backbone already encodes. We introduce FullFlow, a parameter-efficient recipe that upgrades a pretrained rectified-flow text-to-image model into a bidirectional vision--language generator by training only LoRA adapters and lightweight text heads. FullFlow keeps images in their native continuous flow and adds a discrete insertion process for text. Separate image and text timesteps turn inference into trajectory selection in a two-dimensional generative space, enabling text->image, image->text, joint sampling, and partial-text prediction with a single backbone. On Stable Diffusion 3~(SD3) under an identical trainable-parameter count and matched LoRA rank, FullFlow improves text->image FID from 62.7 to 31.6 and image->text CIDEr from 2.0 to 99.4 over a LoRA equivalent following the previous SOTA formulation (Dual~Diffusion) at matched wall-clock training time, while reducing peak VRAM from ~84GB to ~38GB and raising throughput by ~8x on two RTX~A5000 GPUs in under 24 hours, training only ~5% of the backbone parameters. The same recipe transfers to FLUX.1-dev and supports downstream VQA through partial-text generation. These results show that strong bidirectional vision--language capability can be unlocked from pretrained text-to-image flow models without full multimodal pretraining.
-          </p>
+      <div class="mode-grid">
+        <div class="mode-card">
+          <img src="static/images/example/t2i.jpg" alt="text to image">
+          <div class="body">
+            <h4 class="t2i">Text → Image</h4>
+            <p>Fix <em>τ=1</em> (clean text). The model evolves only the image timestep — recovering high-fidelity text-to-image generation while preserving the pretrained image prior.</p>
+          </div>
+        </div>
+        <div class="mode-card">
+          <img src="static/images/example/i2t.jpg" alt="image to text">
+          <div class="body">
+            <h4 class="i2t">Image → Text</h4>
+            <p>Fix <em>t=1</em> (clean image). A discrete <em>Edit-Flow</em> insertion process grows a caption token-by-token in T5 vocabulary space — no autoregressive decoder needed.</p>
+          </div>
+        </div>
+        <div class="mode-card">
+          <img src="static/images/example/joint.jpg" alt="joint">
+          <div class="body">
+            <h4 class="joint">Joint Sampling</h4>
+            <p>Evolve <em>t</em> and <em>τ</em> together. The same backbone produces coherent image–text pairs from pure noise &mdash; co-denoising along any trajectory in the unit square.</p>
+          </div>
+        </div>
+        <div class="mode-card">
+          <img src="static/images/example/vqa.jpg" alt="vqa">
+          <div class="body">
+            <h4 class="vqa">VQA / Partial Text</h4>
+            <p>Restrict the insertion process to a target span. A decoder-free interface for (image, question) → answer that uses exactly the same inference procedure.</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- End paper abstract -->
+  </section>
 
-<!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>@misc{bill2026fullflow,
-      title={{FullFlow}: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision–Language Generation},
-      author = {Bill, Eric Tillmann and Simsar, Enis and Tonioni, Alessio and Hofmann, Thomas},
-      year={2026},
-}</code></pre>
-    </div>
-</section>
-<!--End BibTex citation -->
+  <!-- ============================== ABSTRACT ============================== -->
+  <section class="section section-alt">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Abstract</h2>
+      <div class="content has-text-justified" style="font-size:1.05rem;line-height:1.65;">
+        <p>
+          Modern text-to-image diffusion models encode rich visual priors but expose them only through one-way,
+          text-conditioned generation. Existing unified vision–language models derived from them recover
+          bidirectional capability through large-scale joint pretraining or substantial retraining of the text pathway,
+          <em>discarding</em> the strong image prior the text-to-image backbone already encodes.
+        </p>
+        <p>
+          We introduce <b>FullFlow</b>, a parameter-efficient recipe that upgrades a pretrained rectified-flow
+          text-to-image model into a bidirectional vision–language generator by training only LoRA adapters and
+          lightweight text heads. FullFlow keeps images in their native continuous flow and adds a discrete
+          <em>insertion</em> process for text. Separate image and text timesteps turn inference into trajectory selection in a
+          two-dimensional generative space, enabling text→image, image→text, joint sampling, and partial-text
+          prediction with a single backbone.
+        </p>
+        <p>
+          On Stable Diffusion 3 under an identical trainable-parameter count and matched LoRA rank, FullFlow
+          improves text→image FID from <b>62.7 → 31.6</b> and image→text CIDEr from <b>2.0 → 99.4</b> over a
+          LoRA equivalent of the previous SOTA (Dual Diffusion) at matched wall-clock time, while reducing peak
+          VRAM from ~84 GB to ~38 GB and raising throughput by <b>~8×</b> on two RTX A5000 GPUs in under 24h
+          — training only <b>~5%</b> of the backbone. The same recipe transfers to FLUX.1-dev and supports
+          downstream VQA through partial-text generation.
+        </p>
+      </div>
 
-<footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-
-          <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-
+      <!-- Contributions -->
+      <h3 class="title is-4" style="margin-top:2rem;">Contributions</h3>
+      <div class="contrib-grid">
+        <div class="contrib-card">
+          <span class="ctag">C1 &mdash; Recipe</span>
+          <p>Convert a pretrained text-to-image rectified-flow model into a bidirectional vision–language generator by training
+          only LoRA adapters and lightweight text heads, while preserving the pretrained image prior.</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">C2 &mdash; Native-space joint flow</span>
+          <p>Keep images in the native continuous flow, add a discrete <em>insertion</em> process for text,
+          and decouple image and text timesteps so conditional, joint, and partial-text generation become
+          different trajectories in a single <em>(t,τ)</em> space.</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">C3 &mdash; Results</span>
+          <p>On SD3 and FLUX.1-dev, outperform a matched Dual Diffusion-LoRA baseline on text→image retention <em>and</em>
+          image→text quality, support downstream VQA, all while training on two commodity GPUs.</p>
         </div>
       </div>
     </div>
-  </div>
-</footer>
+  </section>
 
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+  <!-- ============================== METHOD: TIME SPACE ============================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">The <span class="accent">two-time generative space</span></h2>
+      <p class="section-sub">
+        Images live in the native continuous rectified-flow latent space (image time <em>t</em>).
+        Text lives in a discrete insertion process built on <em>Edit Flows</em>, with its own text time <em>τ</em>.
+        A single shared backbone consumes both together — making the two modalities mutually informative at every forward pass.
+      </p>
 
-    <!-- End of Statcounter Code -->
+      <div class="columns is-vcentered">
+        <div class="column is-half">
+          <div class="headline-fig">
+            <img src="static/images/concept/concept_continuous.png" alt="continuous image flow">
+            <div class="caption"><b>Image &mdash; continuous flow.</b> Images are corrupted by Gaussian noise along <em>t</em> and reconstructed with a velocity head, identical to the pretrained text-to-image backbone.</div>
+          </div>
+        </div>
+        <div class="column is-half">
+          <div class="headline-fig">
+            <img src="static/images/concept/concept_discrete.png" alt="discrete text edit flow">
+            <div class="caption"><b>Text &mdash; discrete insertion (Edit Flow).</b> Tokens are <em>deleted</em> along <em>τ</em> and re-inserted by lightweight count + identity heads. Every intermediate state is a valid token subsequence — decodable for SD3 / FLUX's frozen CLIP encoders.</div>
+          </div>
+        </div>
+      </div>
 
-  </body>
-  </html>
+      <div class="headline-fig">
+        <img src="static/images/prior/sd3.jpg" alt="prior visualization">
+        <div class="caption">
+          <b>Why exploit the text-to-image prior?</b> Text-to-image flow models already learn deeply structured visual semantics.
+          Their attention maps cleanly localize entities and bind attributes — capability that should, in principle, also support
+          <em>describing</em> images. FullFlow unlocks this latent bidirectional ability without large-scale joint pretraining.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== MAIN COMPARISON ============================== -->
+  <section class="section section-alt">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Headline result: <span class="accent">FullFlow vs. Dual Diffusion</span></h2>
+      <p class="section-sub">
+        We construct a controlled, matched baseline (<em>DualDiff.-LoRA</em>) on the same SD3 backbone, same LoRA rank,
+        same data, same optimizer, and nearly identical trainable parameter count (136.8M vs. 136.1M). The two methods
+        differ <em>only</em> in their cross-modal interface.
+      </p>
+
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="text-align:left;">Method</th>
+            <th colspan="2">Text → Image</th>
+            <th colspan="2">Image → Text</th>
+          </tr>
+          <tr>
+            <th>FID <span class="arrow">↓</span></th>
+            <th>CMMD <span class="arrow">↓</span></th>
+            <th>CIDEr <span class="arrow">↑</span></th>
+            <th>BERT-F1 <span class="arrow">↑</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="method">DualDiff.-LoRA</td>
+            <td>62.65</td>
+            <td>0.870</td>
+            <td>2.0</td>
+            <td>−0.27</td>
+          </tr>
+          <tr class="ours">
+            <td class="method">FullFlow <span class="pill red">step-matched</span></td>
+            <td class="better">29.32</td>
+            <td class="better">0.021</td>
+            <td>13.4</td>
+            <td>0.02</td>
+          </tr>
+          <tr class="ours">
+            <td class="method">FullFlow <span class="pill green">time-matched</span></td>
+            <td>31.57</td>
+            <td>0.121</td>
+            <td class="better">99.4</td>
+            <td class="better">0.44</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:.9rem;color:#666;margin-top:.4rem;">
+        FID and CMMD are measured against the frozen base SD3 (prior preservation). CIDEr and BERT-F1 are measured
+        against held-out Moondream captions on a 5k validation split.
+      </p>
+
+      <!-- Efficiency callout -->
+      <div class="stat-grid" style="margin-top:2.5rem;">
+        <div class="stat-card"><div class="num">84 → 38 GB</div><div class="label">Peak VRAM<br>fits on two RTX A5000s</div></div>
+        <div class="stat-card"><div class="num">0.25 → 1.96</div><div class="label">Steps / second<br>~8× throughput</div></div>
+        <div class="stat-card"><div class="num">&lt; 24h</div><div class="label">Total training time<br>on 2× RTX A5000</div></div>
+        <div class="stat-card"><div class="num">5% / 2.5%</div><div class="label">Trainable params<br>SD3 / FLUX.1-dev</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== IMAGE → TEXT (SD3) ============================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Image → Text <span class="accent">on SD3</span></h2>
+      <p class="section-sub">
+        Captions generated by FullFlow-SD3 via the discrete insertion process. The whole captioning interface is added with
+        ~136M trainable parameters on top of frozen SD3 — no autoregressive decoder, no joint pretraining.
+      </p>
+
+      <div class="qual-grid">
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_0.jpg"><div class="cap">A yellow dress with a white collar and sleeves is displayed on a wooden hanger against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_1.jpg"><div class="cap">A vintage black car with red wheels is displayed against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_2.jpg"><div class="cap">A pair of brown leather shoes with intricate detailing and tassel is displayed against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_3.jpg"><div class="cap">A classic red car is parked on a street with a building in the background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_4.jpg"><div class="cap">The image is a portrait of a woman with dark hair, set against a red background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_5.jpg"><div class="cap">The image shows a close-up of a brown leather boot with a pointed toe.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_6.jpg"><div class="cap">An oil painting featuring a vibrant bouquet of flowers in a blue vase against a dark background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_7.jpg"><div class="cap">A pink dress with a floral pattern displayed on a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_8.jpg"><div class="cap">A blue bicycle with a basket and a seat is shown against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_12.jpg"><div class="cap">A close-up of a chocolate cake topped with strawberries on a wooden surface.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_14.jpg"><div class="cap">A vintage motorcycle is displayed in a workshop with tools in the background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_i2t/img_18.jpg"><div class="cap">A landscape painting featuring rolling hills and a vibrant sunset sky.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== IMAGE → TEXT (FLUX) ============================== -->
+  <section class="section section-alt">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Same recipe → <span class="accent">FLUX.1-dev</span></h2>
+      <p class="section-sub">
+        To verify the recipe is not specific to SD3, we apply it to FLUX.1-dev with minimal architecture-specific changes,
+        sharding the 22 GB model across three RTX A5000 GPUs. After 40k <em>π<sub>ind</sub></em> + 20k <em>π<sub>ac</sub></em> steps
+        (~36h total), CIDEr reaches <b>73.6</b> while the text→image prior holds at <b>FID 24.7 / CMMD 0.014</b>.
+      </p>
+
+      <div class="qual-grid">
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_0.jpg"><div class="cap">An oil painting depicting a vase with a bouquet of pink and purple flowers against a blue background.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_1.jpg"><div class="cap">An illustration of purple flowers with green leaves, set against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_2.jpg"><div class="cap">A collection of red roses arranged on a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_3.jpg"><div class="cap">A close-up of a black alloy wheel with a design featuring a logo at the center.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_4.jpg"><div class="cap">A pair of brown leather shoes with laces is displayed against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_6.jpg"><div class="cap">A person is wearing a knitted hat and a scarf, against a white background.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_7.jpg"><div class="cap">A pair of beaded earrings arranged on a wooden surface.</div></div>
+        <div class="qual-tile"><img src="static/images/flux_i2t/img_8.jpg"><div class="cap">A residential area with a swimming pool, plants and a building against a blue sky.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== TEXT → IMAGE ============================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Preserving the <span class="accent">text-to-image prior</span></h2>
+      <p class="section-sub">
+        A central worry: doesn't adding captioning <em>break</em> the original image generator? We design a
+        <b>same-noise teacher-matching</b> objective &mdash; the frozen base model (just the LoRA-disabled student) acts as a
+        teacher, requiring no extra memory. The result: the FullFlow finetune still generates high-quality images at
+        identical prompts &amp; seeds. Compare the SD3 base model vs. our FullFlow-SD3 finetune below.
+      </p>
+
+      <div class="compare-row">
+        <div class="compare-block base">
+          <h4>Base SD3</h4>
+          <div class="compare-strip">
+            <img src="static/images/flux_t2i/base/img_0.jpg">
+            <img src="static/images/flux_t2i/base/img_1.jpg">
+            <img src="static/images/flux_t2i/base/img_2.jpg">
+            <img src="static/images/flux_t2i/base/img_3.jpg">
+            <img src="static/images/flux_t2i/base/img_4.jpg">
+          </div>
+        </div>
+        <div class="compare-block ours">
+          <h4>FullFlow finetune (same prompts &amp; seeds)</h4>
+          <div class="compare-strip">
+            <img src="static/images/sd3_t2i/img_0.jpg">
+            <img src="static/images/sd3_t2i/img_1.jpg">
+            <img src="static/images/sd3_t2i/img_2.jpg">
+            <img src="static/images/sd3_t2i/img_3.jpg">
+            <img src="static/images/sd3_t2i/img_4.jpg">
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:.88rem;color:#666;margin:.3rem 0 1.5rem;">
+        Prompts: <i>"A black cat on grass" · "A brown dog in the snow" · "A horse running in a field" · "A beautiful landscape with mountains" · "A futuristic city skyline at sunset"</i>
+      </p>
+
+      <h3 class="title is-4" style="margin-top:2rem;text-align:center;">Same prompts on FLUX.1-dev</h3>
+      <div class="compare-row">
+        <div class="compare-block base">
+          <h4>Base FLUX.1-dev</h4>
+          <div class="compare-strip">
+            <img src="static/images/flux_t2i/base/img_5.jpg">
+            <img src="static/images/flux_t2i/base/img_6.jpg">
+            <img src="static/images/flux_t2i/base/img_7.jpg">
+            <img src="static/images/flux_t2i/base/img_8.jpg">
+            <img src="static/images/flux_t2i/base/img_9.jpg">
+          </div>
+        </div>
+        <div class="compare-block ours">
+          <h4>FullFlow-FLUX finetune</h4>
+          <div class="compare-strip">
+            <img src="static/images/flux_t2i/fine/img_5.jpg">
+            <img src="static/images/flux_t2i/fine/img_6.jpg">
+            <img src="static/images/flux_t2i/fine/img_7.jpg">
+            <img src="static/images/flux_t2i/fine/img_8.jpg">
+            <img src="static/images/flux_t2i/fine/img_9.jpg">
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:.88rem;color:#666;margin-top:.3rem;">
+        Prompts: <i>"A black cat and a brown dog playing together" · "A horse and a bear in a forest" · "A sports car driving on a mountain road" · "A kitchen with a chocolate cake on the table" · "An astronaut riding a horse on the moon"</i>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================== JOINT GENERATION ============================== -->
+  <section class="section section-alt">
+    <div class="container is-max-desktop">
+      <h2 class="section-title"><span class="accent">Joint</span> image–text generation</h2>
+      <p class="section-sub">
+        Evolving image time <em>t</em> and text time <em>τ</em> <b>together</b> samples coherent image–text pairs from
+        pure noise — no input given to either modality. Each tile below shows five independently sampled image–caption pairs.
+        Diagonal co-denoising (<em>τ = t</em>) maximizes CLIP score; text-first trajectories remain competitive.
+      </p>
+
+      <div class="qual-grid">
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_3/img_0.jpg"><div class="cap">A wooden cutting board with a bowl of coffee, surrounded by various food ingredients.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_3/img_1.jpg"><div class="cap">A wooden platter surrounded by colorful food items and muffins.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_13/img_0.jpg"><div class="cap">A close-up photo of a vintage blue Volkswagen camper truck with silver accents.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_13/img_2.jpg"><div class="cap">A vintage car parked on a grassy area with plants in the background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_45/img_0.jpg"><div class="cap">A small dog sitting in tall green grass on a sunny day.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_45/img_3.jpg"><div class="cap">A puppy in a meadow with flowers in the background.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_48/img_1.jpg"><div class="cap">A modern living room with a couch, lamp and large window.</div></div>
+        <div class="qual-tile"><img src="static/images/sd3_joint/images_83/img_2.jpg"><div class="cap">A close-up of a cocktail in a tall glass on a wooden table.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== VQA ============================== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Downstream <span class="accent">VQA</span> via partial-text generation</h2>
+      <p class="section-sub">
+        Restricting the insertion process to a target span gives a decoder-free interface for (image, question) → answer.
+        At <b>10–50× fewer trainable parameters</b> than every baseline and at half the resolution of the strongest competitor,
+        FullFlow attains the <b>highest VizWiz accuracy</b> (50.7) in our table and remains competitive on VQAv2 and COCO captioning.
+      </p>
+
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Model</th>
+            <th>Trainable</th>
+            <th>COCO <span class="arrow">↑</span></th>
+            <th>VQAv2 <span class="arrow">↑</span></th>
+            <th>VizWiz <span class="arrow">↑</span></th>
+            <th>OKVQA <span class="arrow">↑</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="method">CM3Leon</td><td>7B</td><td>61.6</td><td>47.6</td><td>37.6</td><td>23.8</td></tr>
+          <tr><td class="method">Chameleon</td><td>7B</td><td>18.0</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td class="method">LWM</td><td>7B</td><td>—</td><td>55.8</td><td>11.6</td><td>—</td></tr>
+          <tr><td class="method">Show-O (256)</td><td>1.3B</td><td>—</td><td>64.7</td><td>—</td><td>—</td></tr>
+          <tr><td class="method">Show-O (512)</td><td>1.3B</td><td>—</td><td>69.4</td><td>—</td><td>—</td></tr>
+          <tr><td class="method">Transfusion</td><td>7B</td><td>29.0</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td class="method">DualDiff (256)</td><td>2B</td><td>—</td><td>59.5</td><td>19.4</td><td>28.5</td></tr>
+          <tr><td class="method">DualDiff (512)</td><td>2B</td><td>56.2</td><td>60.1</td><td>29.9</td><td>25.3</td></tr>
+          <tr class="ours">
+            <td class="method">FullFlow (Ours, 256)</td>
+            <td><b>130M</b></td>
+            <td>54.9</td>
+            <td>56.5</td>
+            <td class="better">50.7</td>
+            <td>23.3</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="qual-grid" style="margin-top:1.5rem;">
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_0.jpg"><div class="cap"><span class="qa-q">Q:</span> Are both phones the same size? &nbsp; <span class="qa-a">A: yes</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_1.jpg"><div class="cap"><span class="qa-q">Q:</span> Is the man at home? &nbsp; <span class="qa-a">A: no</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_4.jpg"><div class="cap"><span class="qa-q">Q:</span> What color is the child's hat? &nbsp; <span class="qa-a">A: black</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_5.jpg"><div class="cap"><span class="qa-q">Q:</span> What color are the man's eyes? &nbsp; <span class="qa-a">A: blue</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_6.jpg"><div class="cap"><span class="qa-q">Q:</span> What animal resembles the ones pictured? &nbsp; <span class="qa-a">A: zebra</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_8.jpg"><div class="cap"><span class="qa-q">Q:</span> What color are the lights that are lit up? &nbsp; <span class="qa-a">A: red</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_10.jpg"><div class="cap"><span class="qa-q">Q:</span> Is the kitchen modern? &nbsp; <span class="qa-a">A: yes</span></div></div>
+        <div class="qual-tile"><img src="static/images/sd3_vqav2/img_14.jpg"><div class="cap"><span class="qa-q">Q:</span> What sport is being played? &nbsp; <span class="qa-a">A: tennis</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== KEY INGREDIENTS ============================== -->
+  <section class="section section-alt">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">Key ingredients of the <span class="accent">recipe</span></h2>
+      <div class="contrib-grid">
+        <div class="contrib-card">
+          <span class="ctag">Native-space joint flow</span>
+          <p>Keep images in the pretrained continuous flow. Add a discrete <em>Edit-Flow</em> insertion process for text in T5 tokenizer space — every intermediate state is a valid token sequence, decodable for SD3 / FLUX's frozen CLIP encoders.</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">Adaptive gradient balancing</span>
+          <p>Text and image losses produce gradients at <em>very</em> different scales (text ≈ 25× image). We estimate the ratio online and update <em>λ<sub>txt</sub></em> by EMA — eliminating a fragile, backbone-specific hyperparameter at &lt;0.1% runtime overhead.</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">Same-noise teacher matching</span>
+          <p>To prevent image-prior drift, the LoRA-disabled student itself acts as a teacher on the same noisy latent. No extra frozen copy needs to be held in memory — yet FID improves from 63.5 → 30.4.</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">Mixed-corruption pretraining</span>
+          <p>Sampling <em>(t,τ) ∼ Unif[0,1]²</em> exposes the model to all jointly corrupted states, training cross-modal correspondence across the full time space — then we refine with alternating-clean for deployment.</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">LoRA-only adaptation</span>
+          <p>Only LoRA adapters (rank 32) + lightweight text heads + a text-timestep conditioning pathway are trained: ~136M params (~5% of SD3-M), ~298M params (~2.5% of FLUX.1-dev).</p>
+        </div>
+        <div class="contrib-card">
+          <span class="ctag">Decoder-free text interface</span>
+          <p>Captions, joint samples, and VQA answers are all produced by the <em>same</em> insertion process applied to different masks of the token sequence. One model, one inference primitive, four tasks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== BIBTEX ============================== -->
+  <section class="section" id="bibtex">
+    <div class="container is-max-desktop">
+      <h2 class="section-title">BibTeX</h2>
+      <pre style="background:#1f2630;color:#f4f4f6;padding:1.2rem;border-radius:10px;overflow:auto;font-size:.92rem;">@inproceedings{bill2026fullflow,
+  title     = {{FullFlow}: Upgrading Text-to-Image Flow Matching Models for Bidirectional Vision--Language Generation},
+  author    = {Bill, Eric Tillmann and Simsar, Enis and Tonioni, Alessio and Hofmann, Thomas},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026}
+}</pre>
+    </div>
+  </section>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="footer" style="padding-top:2rem;padding-bottom:2rem;background:#fafbfc;">
+    <div class="container is-max-desktop has-text-centered">
+      <p style="font-size:.9rem;color:#666;">
+        Template adapted from the
+        <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
+        (originally from <a href="https://nerfies.github.io" target="_blank">Nerfies</a>).
+        Released under
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
