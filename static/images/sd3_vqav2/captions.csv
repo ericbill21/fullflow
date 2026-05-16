@@ -1,0 +1,20 @@
+idx;txt
+0;Question: \textcolor[rgb]{0.001,0.000,0.014}{Are both phones the same size?}\\Answer: \textcolor[rgb]{0.923,0.399,0.155}{yes}
+1;Question: \textcolor[rgb]{0.001,0.000,0.014}{Is the man at home?}\\Answer: \textcolor[rgb]{0.385,0.079,0.433}{no}
+2;Question: \textcolor[rgb]{0.001,0.000,0.014}{Did she enjoy her meal?}\\Answer: \textcolor[rgb]{0.827,0.280,0.262}{yes}
+3;Question: \textcolor[rgb]{0.001,0.000,0.014}{Is the carpet gray?}\\Answer: \textcolor[rgb]{0.923,0.399,0.155}{no}
+4;Question: \textcolor[rgb]{0.001,0.000,0.014}{What color is the child's hat?}\\Answer: \textcolor[rgb]{0.978,0.558,0.035}{black}
+5;Question: \textcolor[rgb]{0.001,0.000,0.014}{What color is the man's eyes?}\\Answer: \textcolor[rgb]{0.238,0.037,0.396}{blue}
+6;Question: \textcolor[rgb]{0.001,0.000,0.014}{What animal resembles the ones pictured?}\\Answer: \textcolor[rgb]{0.385,0.079,0.433}{zebra}
+7;Question: \textcolor[rgb]{0.001,0.000,0.014}{Are these animals contained?}\\Answer: \textcolor[rgb]{0.238,0.037,0.396}{no}
+8;Question: \textcolor[rgb]{0.001,0.000,0.014}{What color are the lights that are lit up?}\\Answer: \textcolor[rgb]{0.238,0.037,0.396}{red}
+9;Question: \textcolor[rgb]{0.001,0.000,0.014}{What color is the dog?}\\Answer: \textcolor[rgb]{0.541,0.135,0.415}{black}
+10;Question: \textcolor[rgb]{0.001,0.000,0.014}{What color is the cat?}\\Answer: \textcolor[rgb]{0.827,0.280,0.262}{black}
+11;Question: \textcolor[rgb]{0.001,0.000,0.014}{How many people skiing?}\\Answer: \textcolor[rgb]{0.827,0.280,0.262}{1}
+12;Question: \textcolor[rgb]{0.001,0.000,0.014}{How many elephants are in the picture?}\\Answer: \textcolor[rgb]{0.923,0.399,0.155}{2}
+13;Question: \textcolor[rgb]{0.001,0.000,0.014}{What are the men sitting on?}\\Answer: \textcolor[rgb]{0.923,0.399,0.155}{couch}
+14;Question: \textcolor[rgb]{0.001,0.000,0.014}{What is the person holding?}\\Answer: \textcolor[rgb]{0.541,0.135,0.415}{toothbrush}
+15;Question: \textcolor[rgb]{0.001,0.000,0.014}{Is the umbrella open?}\\Answer: \textcolor[rgb]{0.689,0.192,0.358}{no}
+16;Question: \textcolor[rgb]{0.001,0.000,0.014}{Does the water look blue?}\\Answer: \textcolor[rgb]{0.923,0.399,0.155}{yes}
+17;Question: \textcolor[rgb]{0.001,0.000,0.014}{What color is the fire hydrant?}\\Answer: \textcolor[rgb]{0.689,0.192,0.358}{red}
+18;Question: \textcolor[rgb]{0.001,0.000,0.014}{What game are they playing?}\\Answer: \textcolor[rgb]{0.541,0.135,0.415}{baseball}
